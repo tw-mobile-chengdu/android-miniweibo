@@ -15,5 +15,9 @@
     <fragment
         android:id="@+id/postDetailFragment"
         android:name="com.thoughtworks.miniweibo.ui.post.PostDetailFragment"
-        android:label="PostDetailFragment" />
+        android:label="PostDetailFragment">
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="https://miniweibo.thoughtworks.com/post/{id}" />
+    </fragment>
 </navigation>
