@@ -3,28 +3,33 @@ package com.thoughtworks.miniweibo.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.thoughtworks.miniweibo.R
+import com.thoughtworks.miniweibo.api.Post
+import com.thoughtworks.miniweibo.ui.home.HomeTimelineAdaptor.*
+import kotlinx.android.synthetic.main.fragment_home_timeline_card.view.*
+import kotlinx.android.synthetic.main.home_timeline_card_header.view.*
 
 
-class HomeTimelineAdaptor(private val posts: Array<String>) :
-    RecyclerView.Adapter<HomeTimelineAdaptor.PostViewHolder>() {
+class HomeTimelineAdaptor(private val clickListener: (Post) -> Unit) :
+    ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val cardView = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_home_timeline_card, parent, false)
         return PostViewHolder(cardView)
     }
 
-    override fun getItemCount(): Int {
-        return posts.size
-    }
-
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.textView.text = posts[position]
+        holder.bind(getItem(position), clickListener)
     }
 
-    class PostViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val textView: TextView = v.findViewById(R.id.username)
+    class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(post: Post, clickListener: (Post) -> Unit) {
+            itemView.username.text = post.user.screenName
+            itemView.datetime.text = post.createdAt
+            itemView.card_content.text = post.text
+            itemView.card_content.setOnClickListener { clickListener(post) }
+        }
     }
 }
