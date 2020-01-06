@@ -9,8 +9,11 @@ import coil.api.load
 import com.thoughtworks.miniweibo.R
 import com.thoughtworks.miniweibo.api.Post
 import com.thoughtworks.miniweibo.ui.home.HomeTimelineAdaptor.*
+import com.thoughtworks.miniweibo.util.getShortFormat
 import kotlinx.android.synthetic.main.fragment_home_timeline_card.view.*
 import kotlinx.android.synthetic.main.home_timeline_card_header.view.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class HomeTimelineAdaptor(private val clickListener: (Post) -> Unit) :
@@ -29,7 +32,7 @@ class HomeTimelineAdaptor(private val clickListener: (Post) -> Unit) :
         fun bind(post: Post, clickListener: (Post) -> Unit) {
             itemView.avatar.load(post.user.profileImageUrl)
             itemView.username.text = post.user.screenName
-            itemView.datetime.text = post.createdAt
+            itemView.datetime.text = LocalDateTime.parse(post.createdAt, DateTimeFormatter.ofPattern("EEE LLL dd kk:mm:ss Z yyyy")).getShortFormat()
             itemView.card_content.text = post.text
             itemView.card_content.setOnClickListener { clickListener(post) }
         }
