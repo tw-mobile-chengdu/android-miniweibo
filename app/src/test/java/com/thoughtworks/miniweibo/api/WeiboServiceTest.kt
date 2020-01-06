@@ -1,6 +1,7 @@
 package com.thoughtworks.miniweibo.api
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.google.common.truth.Truth.assertThat
 import com.thoughtworks.miniweibo.util.LiveDataCallAdapterFactory
 import com.thoughtworks.miniweibo.util.LiveDataTestUtil.getValue
 import org.junit.Test
@@ -8,8 +9,6 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okio.buffer
 import okio.source
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -46,9 +45,9 @@ class WeiboServiceTest {
         val posts = (getValue(service.getPosts()) as ApiSuccessResponse).body
 
         val request = mockWebServer.takeRequest()
-        assertThat(request.path, `is`("/home-timeline"))
+        assertThat(request.path).isEqualTo("/home_timeline")
 
-        assertThat(posts.size, `is`(2))
+        assertThat(posts.size).isEqualTo(2)
     }
 
     private fun enqueueResponse(fileName: String, headers: Map<String, String> = emptyMap()) {
