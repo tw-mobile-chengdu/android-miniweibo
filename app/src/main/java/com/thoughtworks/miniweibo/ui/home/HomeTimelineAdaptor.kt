@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.thoughtworks.miniweibo.R
 import com.thoughtworks.miniweibo.api.Post
 import com.thoughtworks.miniweibo.ui.home.HomeTimelineAdaptor.*
@@ -26,6 +27,7 @@ class HomeTimelineAdaptor(private val clickListener: (Post) -> Unit) :
 
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(post: Post, clickListener: (Post) -> Unit) {
+            itemView.avatar.load(post.user.profileImageUrl)
             itemView.username.text = post.user.screenName
             itemView.datetime.text = post.createdAt
             itemView.card_content.text = post.text
