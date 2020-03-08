@@ -8,7 +8,9 @@ data class Post(
     val createdAt: String,
     @field:SerializedName("text")
     val text: String,
-    val user: User
+    val user: User,
+    @field:SerializedName("pic_infos")
+    var picInfos: HashMap<String, WeiboImage>
 ) {
     companion object {
         const val UNKNOWN_ID = -1

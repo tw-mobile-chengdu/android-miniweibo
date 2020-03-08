@@ -3,6 +3,7 @@ package com.thoughtworks.miniweibo.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
@@ -29,12 +30,21 @@ class HomeTimelineAdaptor(private val clickListener: (Post) -> Unit) :
     }
 
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private lateinit var viewManager: RecyclerView.LayoutManager
+
         fun bind(post: Post, clickListener: (Post) -> Unit) {
+            viewManager = GridLayoutManager(itemView.context, 3)
+
             itemView.avatar.load(post.user.profileImageUrl)
             itemView.username.text = post.user.screenName
             itemView.datetime.text = LocalDateTime.parse(post.createdAt, DateTimeFormatter.ofPattern("EEE LLL dd kk:mm:ss Z yyyy")).getShortFormat()
             itemView.card_content.text = post.text
             itemView.card_content.setOnClickListener { clickListener(post) }
+
+            val images = post.picInfos.values.toList()
+            itemView.image_one.load(images[0].bmiddle.url)
+            itemView.image_two.load(images[1].bmiddle.url)
+            itemView.image_three.load(images[2].bmiddle.url)
         }
     }
 }
